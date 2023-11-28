@@ -96,9 +96,10 @@ const self_disabled = computed(() => {
  * @description 图片上传
  * @param options upload 所有配置项
  * */
-const emit = defineEmits<{
-  "update:imageUrl": [value: string];
-}>();
+interface UploadEmits {
+  (e: "update:imageUrl", value: string): void;
+}
+const emit = defineEmits<UploadEmits>();
 const handleHttpUpload = async (options: UploadRequestOptions) => {
   let formData = new FormData();
   formData.append("file", options.file);

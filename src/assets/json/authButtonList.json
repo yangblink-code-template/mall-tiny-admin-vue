@@ -2,6 +2,10 @@
   "code": 200,
   "data": {
     "useProTable": ["add", "batchAdd", "export", "batchDelete", "status"],
+    "admin": ["add", "batchAdd", "export", "batchDelete", "status"],
+    "role": ["add", "batchAdd", "export", "batchDelete", "status"],
+    "menu": ["add", "batchAdd", "export", "batchDelete", "status"],
+    "resource": ["add", "batchAdd", "export", "batchDelete", "status"],
     "authButton": ["add", "edit", "delete", "import", "export"]
   },
   "msg": "成功"

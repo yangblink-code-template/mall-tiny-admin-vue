@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse } from "axios";
-import { showFullScreenLoading, tryHideFullScreenLoading } from "@/components/Loading/fullScreen";
+import { showFullScreenLoading, tryHideFullScreenLoading } from "@/config/serviceLoading";
 import { LOGIN_URL } from "@/config";
 import { ElMessage } from "element-plus";
 import { ResultData } from "@/api/interface";
@@ -9,7 +9,7 @@ import { useUserStore } from "@/stores/modules/user";
 import router from "@/routers";
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
-  loading?: boolean;
+  noLoading?: boolean;
 }
 
 const config = {
@@ -35,11 +35,11 @@ class RequestHttp {
     this.service.interceptors.request.use(
       (config: CustomAxiosRequestConfig) => {
         const userStore = useUserStore();
-        // 当前请求不需要显示 loading，在 api 服务中通过指定的第三个参数: { loading: false } 来控制
-        config.loading ?? (config.loading = true);
-        config.loading && showFullScreenLoading();
+        // 当前请求不需要显示 loading，在 api 服务中通过指定的第三个参数: { noLoading: true } 来控制
+        config.noLoading || showFullScreenLoading();
         if (config.headers && typeof config.headers.set === "function") {
           config.headers.set("x-access-token", userStore.token);
+          config.headers.set("Authorization", `Bearer ${userStore.token}`);
         }
         return config;
       },
@@ -61,12 +61,12 @@ class RequestHttp {
         if (data.code == ResultEnum.OVERDUE) {
           userStore.setToken("");
           router.replace(LOGIN_URL);
-          ElMessage.error(data.msg);
+          ElMessage.error(data.message);
           return Promise.reject(data);
         }
         // 全局错误信息拦截（防止下载文件的时候返回数据流，没有 code 直接报错）
         if (data.code && data.code !== ResultEnum.SUCCESS) {
-          ElMessage.error(data.msg);
+          ElMessage.error(data.message);
           return Promise.reject(data);
         }
         // 成功请求（在页面上除非特殊情况，否则不用处理失败逻辑）

@@ -115,10 +115,10 @@ const filterNode = (value: string, data: { [key: string]: any }, node: any) => {
   return labels.some(label => label.indexOf(value) !== -1);
 };
 
-// emit
-const emit = defineEmits<{
-  change: [value: any];
-}>();
+interface FilterEmits {
+  (e: "change", value: any): void;
+}
+const emit = defineEmits<FilterEmits>();
 
 // 单选
 const handleNodeClick = (data: { [key: string]: any }) => {

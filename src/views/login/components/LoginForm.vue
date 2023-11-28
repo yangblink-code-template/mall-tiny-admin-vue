@@ -41,7 +41,7 @@ import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
 import { CircleClose, UserFilled } from "@element-plus/icons-vue";
 import type { ElForm } from "element-plus";
-import md5 from "md5";
+// import md5 from "js-md5";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -57,8 +57,8 @@ const loginRules = reactive({
 
 const loading = ref(false);
 const loginForm = reactive<Login.ReqLoginForm>({
-  username: "",
-  password: ""
+  username: "admin",
+  password: "123"
 });
 
 // login
@@ -69,21 +69,22 @@ const login = (formEl: FormInstance | undefined) => {
     loading.value = true;
     try {
       // 1.执行登录接口
-      const { data } = await loginApi({ ...loginForm, password: md5(loginForm.password) });
-      userStore.setToken(data.access_token);
+      // const { data } = await loginApi({ ...loginForm, password: md5(loginForm.password) });
+      const { data } = await loginApi({ ...loginForm, password: loginForm.password });
+      userStore.setToken(data.token);
 
       // 2.添加动态路由
       await initDynamicRouter();
 
       // 3.清空 tabs、keepAlive 数据
-      tabsStore.setTabs([]);
-      keepAliveStore.setKeepAliveName([]);
+      tabsStore.closeMultipleTab();
+      keepAliveStore.setKeepAliveName();
 
       // 4.跳转到首页
       router.push(HOME_URL);
       ElNotification({
         title: getTimeState(),
-        message: "欢迎登录 Geeker-Admin",
+        message: "欢迎登录",
         type: "success",
         duration: 3000
       });

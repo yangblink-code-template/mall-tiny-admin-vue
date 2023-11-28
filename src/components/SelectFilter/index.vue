@@ -69,10 +69,10 @@ watch(
   { deep: true, immediate: true }
 );
 
-// emit
-const emit = defineEmits<{
-  change: [value: any];
-}>();
+interface FilterEmits {
+  (e: "change", value: any): void;
+}
+const emit = defineEmits<FilterEmits>();
 
 /**
  * @description 选择筛选项

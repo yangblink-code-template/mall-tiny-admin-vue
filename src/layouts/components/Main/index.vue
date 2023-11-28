@@ -1,6 +1,6 @@
 <template>
-  <Maximize v-show="maximize" />
-  <Tabs v-show="tabs" />
+  <Maximize v-if="maximize" />
+  <Tabs v-if="tabs" />
   <el-main>
     <router-view v-slot="{ Component, route }">
       <transition appear name="fade-transform" mode="out-in">
@@ -10,7 +10,7 @@
       </transition>
     </router-view>
   </el-main>
-  <el-footer v-show="footer">
+  <el-footer v-if="footer">
     <Footer />
   </el-footer>
 </template>

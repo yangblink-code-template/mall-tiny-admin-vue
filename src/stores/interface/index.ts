@@ -15,9 +15,7 @@ export interface GlobalState {
   isGrey: boolean;
   isWeak: boolean;
   asideInverted: boolean;
-  headerInverted: boolean;
   isCollapse: boolean;
-  accordion: boolean;
   breadcrumb: boolean;
   breadcrumbIcon: boolean;
   tabs: boolean;
@@ -38,7 +36,6 @@ export interface TabsMenuProps {
   path: string;
   name: string;
   close: boolean;
-  isKeepAlive: boolean;
 }
 
 /* TabsState */

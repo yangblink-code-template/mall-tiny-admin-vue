@@ -45,6 +45,8 @@ export const initDynamicRouter = async () => {
         router.addRoute("layout", item as unknown as RouteRecordRaw);
       }
     });
+    // console.log(router.options.routes);
+    // console.log(router.getRoutes());
   } catch (error) {
     // 当按钮 || 菜单请求出错时，重定向到登陆页
     userStore.setToken("");

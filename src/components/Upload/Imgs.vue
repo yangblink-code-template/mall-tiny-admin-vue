@@ -139,9 +139,10 @@ const handleHttpUpload = async (options: UploadRequestOptions) => {
  * @param response 上传响应结果
  * @param uploadFile 上传的文件
  * */
-const emit = defineEmits<{
-  "update:fileList": [value: UploadUserFile[]];
-}>();
+interface UploadEmits {
+  (e: "update:fileList", value: UploadUserFile[]): void;
+}
+const emit = defineEmits<UploadEmits>();
 const uploadSuccess = (response: { fileUrl: string } | undefined, uploadFile: UploadFile) => {
   if (!response) return;
   uploadFile.url = response.fileUrl;

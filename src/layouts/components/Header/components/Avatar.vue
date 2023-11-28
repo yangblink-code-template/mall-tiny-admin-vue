@@ -1,13 +1,14 @@
 <template>
   <el-dropdown trigger="click">
     <div class="avatar">
-      <img src="@/assets/images/avatar.gif" alt="avatar" />
+      <div class="avatar-name">{{ firstName }}</div>
+      <!-- <img src="@/assets/images/avatar.gif" alt="avatar" /> -->
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item @click="openDialog('infoRef')">
+        <!-- <el-dropdown-item @click="openDialog('infoRef')">
           <el-icon><User /></el-icon>{{ $t("header.personalData") }}
-        </el-dropdown-item>
+        </el-dropdown-item> -->
         <el-dropdown-item @click="openDialog('passwordRef')">
           <el-icon><Edit /></el-icon>{{ $t("header.changePassword") }}
         </el-dropdown-item>
@@ -18,24 +19,24 @@
     </template>
   </el-dropdown>
   <!-- infoDialog -->
-  <InfoDialog ref="infoRef"></InfoDialog>
+  <!-- <InfoDialog ref="infoRef"></InfoDialog> -->
   <!-- passwordDialog -->
   <PasswordDialog ref="passwordRef"></PasswordDialog>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { LOGIN_URL } from "@/config";
 import { useRouter } from "vue-router";
 import { logoutApi } from "@/api/modules/login";
 import { useUserStore } from "@/stores/modules/user";
 import { ElMessageBox, ElMessage } from "element-plus";
-import InfoDialog from "./InfoDialog.vue";
+// import InfoDialog from "./InfoDialog.vue";
 import PasswordDialog from "./PasswordDialog.vue";
 
 const router = useRouter();
 const userStore = useUserStore();
-
+const firstName = computed(() => userStore.userInfo.name.charAt(0));
 // 退出登录
 const logout = () => {
   ElMessageBox.confirm("您是否确认退出登录?", "温馨提示", {
@@ -56,10 +57,10 @@ const logout = () => {
 };
 
 // 打开修改密码和个人信息弹窗
-const infoRef = ref<InstanceType<typeof InfoDialog> | null>(null);
+// const infoRef = ref<InstanceType<typeof InfoDialog> | null>(null);
 const passwordRef = ref<InstanceType<typeof PasswordDialog> | null>(null);
 const openDialog = (ref: string) => {
-  if (ref == "infoRef") infoRef.value?.openDialog();
+  // if (ref == "infoRef") infoRef.value?.openDialog();
   if (ref == "passwordRef") passwordRef.value?.openDialog();
 };
 </script>
@@ -74,6 +75,19 @@ const openDialog = (ref: string) => {
   img {
     width: 100%;
     height: 100%;
+  }
+  &-name {
+    width: 100%;
+    height: 100%;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 34px;
+    color: #ffffff;
+    text-align: center;
+
+    // background-color: #31e4ff;
+    background-color: #64d9d6;
+    border-radius: 50%;
   }
 }
 </style>
