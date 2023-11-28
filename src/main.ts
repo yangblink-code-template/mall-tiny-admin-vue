@@ -13,7 +13,7 @@ import "element-plus/dist/index.css";
 // element dark css
 import "element-plus/theme-chalk/dark/css-vars.css";
 // custom element dark css
-import "@/styles/element-dark.scss";
+import "@/styles/theme/element-dark.scss";
 // custom element css
 import "@/styles/element.scss";
 // svg icons

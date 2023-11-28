@@ -7,8 +7,8 @@
       </div>
       <div class="login-form">
         <div class="login-logo">
-          <img class="login-icon" src="@/assets/images/logo.svg" alt="" />
-          <h2 class="logo-text">Geeker-Admin</h2>
+          <!-- <img class="login-icon" src="@/assets/images/logo.svg" alt="" /> -->
+          <h2 class="logo-text">{{ name }}</h2>
         </div>
         <LoginForm />
       </div>
@@ -19,6 +19,8 @@
 <script setup lang="ts" name="login">
 import LoginForm from "./components/LoginForm.vue";
 import SwitchDark from "@/components/SwitchDark/index.vue";
+import { SYS_NAME } from "@/config";
+const name = SYS_NAME;
 </script>
 
 <style scoped lang="scss">

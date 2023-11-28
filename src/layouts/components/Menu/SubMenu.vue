@@ -2,7 +2,7 @@
   <template v-for="subItem in menuList" :key="subItem.path">
     <el-sub-menu v-if="subItem.children?.length" :index="subItem.path">
       <template #title>
-        <el-icon v-if="subItem.meta.icon">
+        <el-icon>
           <component :is="subItem.meta.icon"></component>
         </el-icon>
         <span class="sle">{{ subItem.meta.title }}</span>
@@ -10,7 +10,7 @@
       <SubMenu :menu-list="subItem.children" />
     </el-sub-menu>
     <el-menu-item v-else :index="subItem.path" @click="handleClickMenu(subItem)">
-      <el-icon v-if="subItem.meta.icon">
+      <el-icon>
         <component :is="subItem.meta.icon"></component>
       </el-icon>
       <template #title>
@@ -80,6 +80,12 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
         right: 0;
       }
     }
+  }
+}
+.classic,
+.transverse {
+  #driver-highlighted-element-stage {
+    background-color: #606266 !important;
   }
 }
 </style>

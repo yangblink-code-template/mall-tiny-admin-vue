@@ -10,9 +10,7 @@
     </div>
     <el-space class="mb30">
       <el-button type="primary" :icon="Refresh" @click="refresh"> 刷新当前页 </el-button>
-      <el-button type="primary" :icon="FullScreen" @click="maximize"> 当前页全屏切换 </el-button>
-      <el-button type="primary" :icon="FullScreen" @click="closeOnSide('left')"> 关闭左侧标签页 </el-button>
-      <el-button type="primary" :icon="FullScreen" @click="closeOnSide('right')"> 关闭右侧标签页 </el-button>
+      <el-button type="primary" :icon="FullScreen" @click="maximize"> 当前页全屏 </el-button>
       <el-button type="primary" :icon="Remove" @click="closeCurrentTab"> 关闭当前页 </el-button>
       <el-button type="primary" :icon="CircleClose" @click="closeOtherTab"> 关闭其他 </el-button>
       <el-button type="primary" :icon="FolderDelete" @click="closeAllTab"> 全部关闭 </el-button>
@@ -35,7 +33,6 @@ import { useTabsStore } from "@/stores/modules/tabs";
 import { useGlobalStore } from "@/stores/modules/global";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { Refresh, FullScreen, Remove, CircleClose, FolderDelete, Promotion } from "@element-plus/icons-vue";
-import { ElMessage } from "element-plus";
 
 const route = useRoute();
 const router = useRouter();
@@ -47,10 +44,10 @@ const keepAliveStore = useKeepAliveStore();
 const refreshCurrentPage: Function = inject("refresh") as Function;
 const refresh = () => {
   setTimeout(() => {
-    route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name as string);
+    keepAliveStore.removeKeepAliveName(route.name as string);
     refreshCurrentPage(false);
     nextTick(() => {
-      route.meta.isKeepAlive && keepAliveStore.addKeepAliveName(route.name as string);
+      keepAliveStore.addKeepAliveName(route.name as string);
       refreshCurrentPage(true);
     });
   }, 0);
@@ -59,34 +56,31 @@ const refresh = () => {
 // 设置 Tab 标题
 const tabsTitle = ref("");
 const editTabsTitle = () => {
-  if (!tabsTitle.value) return ElMessage.warning("请输入标题");
   tabStore.setTabsTitle(tabsTitle.value);
 };
 
 // 当前页全屏
 const maximize = () => {
-  globalStore.setGlobalState("maximize", !globalStore.maximize);
+  globalStore.setGlobalState("maximize", true);
 };
 
 // 关闭当前页
 const closeCurrentTab = () => {
   if (route.meta.isAffix) return;
   tabStore.removeTabs(route.fullPath);
+  keepAliveStore.removeKeepAliveName(route.name as string);
 };
 
 // 关闭其他
 const closeOtherTab = () => {
   tabStore.closeMultipleTab(route.fullPath);
-};
-
-// 关闭两侧
-const closeOnSide = (direction: "left" | "right") => {
-  tabStore.closeTabsOnSide(route.fullPath, direction);
+  keepAliveStore.setKeepAliveName([route.name] as string[]);
 };
 
 // 全部关闭
 const closeAllTab = () => {
   tabStore.closeMultipleTab();
+  keepAliveStore.setKeepAliveName();
   router.push(HOME_URL);
 };
 

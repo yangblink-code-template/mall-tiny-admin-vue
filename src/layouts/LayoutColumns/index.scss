@@ -7,11 +7,12 @@
     flex-shrink: 0;
     width: 70px;
     height: 100%;
-    background-color: var(--el-menu-bg-color);
-    border-right: 1px solid var(--el-aside-border-color);
+    background-color: #191a20;
+    border-right: 1px solid var(--el-border-color-light);
     .logo {
       box-sizing: border-box;
       height: 55px;
+      border-bottom: 1px solid #282a35;
       .logo-img {
         width: 32px;
         object-fit: contain;
@@ -29,8 +30,11 @@
           height: 70px;
           cursor: pointer;
           transition: all 0.3s ease;
+          &:hover {
+            background-color: #292b35;
+          }
           .el-icon {
-            font-size: 20px;
+            font-size: 21px;
           }
           .title {
             margin-top: 6px;
@@ -38,7 +42,7 @@
           }
           .el-icon,
           .title {
-            color: var(--el-menu-text-color);
+            color: #e5eaf3;
           }
         }
         .split-active {
@@ -61,7 +65,7 @@
     height: 100%;
     overflow: hidden;
     background-color: var(--el-menu-bg-color);
-    border-right: 1px solid var(--el-aside-border-color);
+    border-right: 1px solid var(--el-border-color-light);
     transition: width 0.3s ease;
     .el-scrollbar {
       height: calc(100% - 55px);
@@ -74,10 +78,11 @@
     .logo {
       box-sizing: border-box;
       height: 55px;
+      border-bottom: 1px solid var(--el-border-color-light);
       .logo-text {
         font-size: 24px;
         font-weight: bold;
-        color: var(--el-aside-logo-text-color);
+        color: var(--el-menu-text-color);
         white-space: nowrap;
       }
     }
@@ -89,7 +94,13 @@
     justify-content: space-between;
     height: 55px;
     padding: 0 15px;
-    background-color: var(--el-header-bg-color);
+    background-color: #ffffff;
     border-bottom: 1px solid var(--el-border-color-light);
+    :deep(.tool-bar-ri) {
+      .toolBar-icon,
+      .username {
+        color: var(--el-text-color-primary);
+      }
+    }
   }
 }

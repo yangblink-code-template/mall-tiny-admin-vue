@@ -1,17 +1,10 @@
-import { createRouter, createWebHashHistory, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import { useUserStore } from "@/stores/modules/user";
 import { useAuthStore } from "@/stores/modules/auth";
 import { LOGIN_URL, ROUTER_WHITE_LIST } from "@/config";
 import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
 import { staticRouter, errorRouter } from "@/routers/modules/staticRouter";
 import NProgress from "@/config/nprogress";
-
-const mode = import.meta.env.VITE_ROUTER_MODE;
-
-const routerMode = {
-  hash: () => createWebHashHistory(),
-  history: () => createWebHistory()
-};
 
 /**
  * @description 📚 路由参数配置简介
@@ -30,7 +23,7 @@ const routerMode = {
  * @param meta.isKeepAlive ==> 当前路由是否缓存
  * */
 const router = createRouter({
-  history: routerMode[mode](),
+  history: createWebHashHistory(),
   routes: [...staticRouter, ...errorRouter],
   strict: false,
   scrollBehavior: () => ({ left: 0, top: 0 })

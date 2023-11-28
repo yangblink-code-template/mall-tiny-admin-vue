@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { GlobalState } from "@/stores/interface";
 import { DEFAULT_PRIMARY } from "@/config";
-import piniaPersistConfig from "@/stores/helper/persist";
+import piniaPersistConfig from "@/config/piniaPersist";
 
 export const useGlobalStore = defineStore({
   id: "geeker-global",
@@ -23,14 +23,10 @@ export const useGlobalStore = defineStore({
     isGrey: false,
     // 色弱模式
     isWeak: false,
-    // 侧边栏反转
+    // 侧边栏反转 (目前仅支持 'vertical' 模式)
     asideInverted: false,
-    // 头部反转
-    headerInverted: false,
     // 折叠菜单
     isCollapse: false,
-    // 菜单手风琴
-    accordion: true,
     // 面包屑导航
     breadcrumb: true,
     // 面包屑导航图标
@@ -40,7 +36,7 @@ export const useGlobalStore = defineStore({
     // 标签页图标
     tabsIcon: true,
     // 页脚
-    footer: true
+    footer: false
   }),
   getters: {},
   actions: {

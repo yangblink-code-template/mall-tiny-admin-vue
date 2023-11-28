@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { AuthState } from "@/stores/interface";
 import { getAuthButtonListApi, getAuthMenuListApi } from "@/api/modules/login";
 import { getFlatMenuList, getShowMenuList, getAllBreadcrumbList } from "@/utils";
+import arrayToTree from "array-to-tree";
+import { useUserStore } from "@/stores/modules/user";
 
 export const useAuthStore = defineStore({
   id: "geeker-auth",
@@ -29,12 +31,43 @@ export const useAuthStore = defineStore({
     // Get AuthButtonList
     async getAuthButtonList() {
       const { data } = await getAuthButtonListApi();
+      // const { menus } = data;
       this.authButtonList = data;
     },
     // Get AuthMenuList
     async getAuthMenuList() {
       const { data } = await getAuthMenuListApi();
-      this.authMenuList = data;
+      const { menus, username } = data;
+      // const userInfo = { name: username };
+      const userStore = useUserStore();
+      userStore.setUserInfo({ name: username });
+      let list = menus
+        .filter(menu => {
+          return menu.component;
+        })
+        .map(menu => {
+          return {
+            component: menu.component,
+            path: menu.component,
+            name: menu.name,
+            parentId: menu.parentId,
+            id: menu.id,
+            redirect: menu.redirect ? menu.redirect : undefined,
+            meta: {
+              icon: menu.icon,
+              title: menu.title,
+              isAffix: true,
+              isFull: false,
+              isHide: !!menu.hidden,
+              isKeepAlive: true
+            }
+          };
+        });
+      list = arrayToTree(list, {
+        parentProperty: "parentId"
+      });
+      console.log("🚀 ~ file: auth.ts:66 ~ getAuthMenuList ~ list:", list);
+      this.authMenuList = list;
     },
     // Set RouteName
     async setRouteName(name: string) {
